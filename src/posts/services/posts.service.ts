@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Posts } from '../entities/posts.entity';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 
 @Injectable()
 export class PostsService {
@@ -19,5 +19,10 @@ export class PostsService {
     if (!post)
       throw new HttpException('Postagem não encontrada!', HttpStatus.NOT_FOUND);
     return post;
+  }
+  async findAllByTitle(title: string): Promise<Posts[]> {
+    return await this.postsRepository.find({
+      where: { title: ILike(`%${title}%`) },
+    });
   }
 }

@@ -22,5 +22,9 @@ export class PostsController {
   findPostById(@Param('id', ParseIntPipe) id: number): Promise<Posts> {
     return this.postsService.findPostById(id);
   }
-  
+  @Get('/title/:title')
+  @HttpCode(HttpStatus.OK)
+  findAllByTitle(@Param('title') title: string): Promise<Posts[]>{
+    return this.postsService.findAllByTitle(title);
+  }
 }
