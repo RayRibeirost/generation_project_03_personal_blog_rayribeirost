@@ -25,4 +25,7 @@ export class PostsService {
       where: { title: ILike(`%${title}%`) },
     });
   }
+  async createPost(post: Posts): Promise<Posts> {
+    return await this.postsRepository.save(post);
+  }
 }

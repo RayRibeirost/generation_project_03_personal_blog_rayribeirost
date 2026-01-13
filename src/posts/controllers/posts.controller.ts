@@ -1,10 +1,12 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   Param,
   ParseIntPipe,
+  Post,
 } from '@nestjs/common';
 import { PostsService } from '../services/posts.service';
 import { Posts } from '../entities/posts.entity';
@@ -22,9 +24,14 @@ export class PostsController {
   findPostById(@Param('id', ParseIntPipe) id: number): Promise<Posts> {
     return this.postsService.findPostById(id);
   }
-  @Get('/title/:title')
+  @Get('/titulo/:title')
   @HttpCode(HttpStatus.OK)
-  findAllByTitle(@Param('title') title: string): Promise<Posts[]>{
+  findAllByTitle(@Param('title') title: string): Promise<Posts[]> {
     return this.postsService.findAllByTitle(title);
+  }
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  createPost(@Body() post: Posts): Promise<Posts> {
+    return this.postsService.createPost(post);
   }
 }
