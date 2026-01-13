@@ -28,4 +28,8 @@ export class PostsService {
   async createPost(post: Posts): Promise<Posts> {
     return await this.postsRepository.save(post);
   }
+  async updatePost(post: Posts): Promise<Posts> {
+    await this.findPostById(post.id);
+    return await this.postsRepository.save(post);
+  }
 }
