@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -39,5 +40,10 @@ export class PostsController {
   @HttpCode(HttpStatus.OK)
   updatePost(@Body() post: Posts): Promise<Posts> {
     return this.postsService.updatePost(post);
+  }
+  @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  deletePost(@Param('id', ParseIntPipe) id: number) {
+    return this.postsService.deletePost(id);
   }
 }
