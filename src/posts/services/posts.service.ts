@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Posts } from '../entities/posts.entity';
 import { Repository } from 'typeorm';
@@ -11,5 +11,13 @@ export class PostsService {
   ) {}
   async findAll(): Promise<Posts[]> {
     return await this.postsRepository.find();
+  }
+  async findPostById(id: number): Promise<Posts> {
+    const post = await this.postsRepository.findOne({
+      where: { id },
+    });
+    if (!post)
+      throw new HttpException('Postagem não encontrada!', HttpStatus.NOT_FOUND);
+    return post;
   }
 }
