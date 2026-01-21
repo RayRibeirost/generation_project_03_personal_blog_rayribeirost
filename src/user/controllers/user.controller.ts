@@ -8,18 +8,23 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { Users } from '../entities/user.entity';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
 @Controller('/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @UseGuards(JwtAuthGuard)
   @Get('/all')
   @HttpCode(HttpStatus.OK)
   findAllUsers(): Promise<Users[]> {
     return this.userService.findAllUsers();
   }
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   @HttpCode(HttpStatus.OK)
   findUserById(@Param('id', ParseIntPipe) id: number): Promise<Users> {
@@ -30,6 +35,7 @@ export class UserController {
   async createUser(@Body() user: Users): Promise<Users> {
     return this.userService.createUser(user);
   }
+  @UseGuards(JwtAuthGuard)
   @Put('/atualizar')
   @HttpCode(HttpStatus.OK)
   async updateUser(@Body() user: Users): Promise<Users> {
