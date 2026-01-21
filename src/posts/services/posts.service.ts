@@ -12,12 +12,14 @@ export class PostsService {
     private themeService: ThemeService,
   ) {}
   async findAll(): Promise<Posts[]> {
-    return await this.postsRepository.find({ relations: { theme: true } });
+    return await this.postsRepository.find({
+      relations: { theme: true, user: true },
+    });
   }
   async findPostById(id: number): Promise<Posts> {
     const post = await this.postsRepository.findOne({
       where: { id },
-      relations: { theme: true },
+      relations: { theme: true, user: true },
     });
     if (!post)
       throw new HttpException('Postagem não encontrada!', HttpStatus.NOT_FOUND);
@@ -26,7 +28,7 @@ export class PostsService {
   async findAllByTitle(title: string): Promise<Posts[]> {
     return await this.postsRepository.find({
       where: { title: ILike(`%${title}%`) },
-      relations: { theme: true },
+      relations: { theme: true, user: true },
     });
   }
   async createPost(post: Posts): Promise<Posts> {
