@@ -7,6 +7,7 @@ import { ThemeModule } from './theme/theme.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { Users } from './user/entities/user.entity';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { Users } from './user/entities/user.entity';
     AuthModule,
     UserModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}
